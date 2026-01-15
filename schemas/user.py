@@ -15,7 +15,7 @@ class UserCreate(UserBase):
 
 
 class UserUpdate(BaseModel):
-    # PATCH parcial: todo opcional
+ 
     nombre: Optional[str] = None
     apellidos: Optional[str] = None
     dni: Optional[str] = None

@@ -21,7 +21,7 @@ def to_mongo_datetime(value):
 
 
 def serialize_user(user: dict) -> dict:
-    # user["fecha_nacimiento"] en Mongo queda como datetime
+    
     fn = user.get("fecha_nacimiento")
     if isinstance(fn, datetime):
         fn_out = fn.date().isoformat()
@@ -64,12 +64,12 @@ def get_user_by_id(user_id: str):
 def create_user(user: UserCreate):
     data = user.model_dump()
 
-    # created/updated
+   
     now = datetime.utcnow()
     data["created"] = now
     data["updated"] = now
 
-    # fecha_nacimiento (date -> datetime)
+    
     data["fecha_nacimiento"] = to_mongo_datetime(data["fecha_nacimiento"])
 
     try:
@@ -89,7 +89,7 @@ def update_user(user_id: str, user: UserUpdate):
     if not updates:
         raise HTTPException(status_code=400, detail="No hay campos para actualizar")
 
-    # si viene fecha_nacimiento, convertir
+   
     if "fecha_nacimiento" in updates:
         updates["fecha_nacimiento"] = to_mongo_datetime(updates["fecha_nacimiento"])
 
@@ -129,7 +129,7 @@ def search_by_nombre_apellido(
     nombre: str = Query(..., min_length=1),
     apellidos: str = Query(..., min_length=1),
 ):
-    # coincidencia parcial (case-insensitive)
+   
     nombre_re = re.compile(re.escape(nombre), re.IGNORECASE)
     apellidos_re = re.compile(re.escape(apellidos), re.IGNORECASE)
 
